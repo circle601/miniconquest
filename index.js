@@ -11,7 +11,7 @@ document.body.appendChild(renderer.domElement);
 
 const earthRadius = 5;
 const earthGeometry = new THREE.SphereGeometry(earthRadius, 24, 24);
-const earthMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide, color: 0x4cff00, wireframe: false });
+const earthMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide, color: 0x4cff00, wireframe: true });
 const earthSphere = new THREE.Mesh(earthGeometry, earthMaterial);
 scene.add(earthSphere);
 
