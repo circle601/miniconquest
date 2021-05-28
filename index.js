@@ -9,19 +9,25 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 
-
 const earthRadius = 5;
-const earthGeometry = new THREE.IcosahedronGeometry(earthRadius, 5);
-const earthMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide, color: 0x4cff00, wireframe: true });
+const earthGeometry = new THREE.SphereGeometry(earthRadius, 24, 24);
+const earthMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide, color: 0x4cff00, wireframe: false });
 const earthSphere = new THREE.Mesh(earthGeometry, earthMaterial);
 scene.add(earthSphere);
 
+console.log(earthSphere);
+console.log(earthSphere.geometry.getAttribute('position'));
+console.log(earthSphere.geometry.getAttribute('index'));
 
-
+console.log(earthSphere.geometry.index);
 
 // Setup the controls
 const OrbitControls = ORBIT_CONTROLS(THREE);
+
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.enablePan = false;
+controls.minDistance = 6.25;
+controls.maxDistance = 15;
 
 //controls.update() must be called after any manual changes to the camera's transform
 camera.position.set(9, 9, 9);
