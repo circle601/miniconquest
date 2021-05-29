@@ -15,7 +15,7 @@ scene.add(light);
 
 const earthRadius = 5;
 const earthGeometry = new THREE.IcosahedronGeometry(earthRadius, 4);
-const earthMaterial = new THREE.MeshBasicMaterial({ color: 0x1E7E62, wireframe: false });
+const earthMaterial = new THREE.MeshNormalMaterial();
 const earthSphere = new THREE.Mesh(earthGeometry, earthMaterial);
 scene.add(earthSphere);
 
@@ -32,7 +32,7 @@ const triangles = _.chunk(verticies, 3);
 
 triangles.map(triangle => {
 	const facePointerGeometry = new THREE.BoxGeometry(.1, .1, .1);
-	const facePointerMaterial = new THREE.MeshNormalMaterial({ color: 0xffffff, wireframe: false });
+	const facePointerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false });
 	const facePointerSphere = new THREE.Mesh(facePointerGeometry, facePointerMaterial);
 
 	facePointerSphere.position.x = (triangle[0][0] + triangle[1][0] + triangle[2][0]) / 3;
