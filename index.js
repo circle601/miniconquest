@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import * as ORBIT_CONTROLS from 'three-orbit-controls';
+import _ from 'lodash';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -10,16 +11,33 @@ document.body.appendChild(renderer.domElement);
 
 
 const earthRadius = 5;
-const earthGeometry = new THREE.SphereGeometry(earthRadius, 24, 24);
-const earthMaterial = new THREE.MeshBasicMaterial({ side: THREE.BackSide, color: 0x4cff00, wireframe: true });
+const earthGeometry = new THREE.IcosahedronGeometry(earthRadius, 4);
+const earthMaterial = new THREE.MeshBasicMaterial({ color: 0x4cff00, wireframe: false });
 const earthSphere = new THREE.Mesh(earthGeometry, earthMaterial);
 scene.add(earthSphere);
 
 console.log(earthSphere);
-console.log(earthSphere.geometry.getAttribute('position'));
-console.log(earthSphere.geometry.getAttribute('index'));
+// console.log(earthSphere.geometry.index);
 
-console.log(earthSphere.geometry.index);
+const positionsRaw = earthSphere.geometry.getAttribute('position').array;
+const verticies = _.chunk(positionsRaw, 3);
+const triangles = _.chunk(verticies, 3);
+
+// console.log(verticies);
+// console.log(triangles);
+
+triangles.map(triangle => {
+	const facePointerGeometry = new THREE.BoxGeometry(.1, .1, .1);
+	const facePointerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false });
+	const facePointerSphere = new THREE.Mesh(facePointerGeometry, facePointerMaterial);
+
+	facePointerSphere.position.x = (triangle[0][0] + triangle[1][0] + triangle[2][0]) / 3;
+	facePointerSphere.position.y = (triangle[0][1] + triangle[1][1] + triangle[2][1]) / 3;
+	facePointerSphere.position.z = (triangle[0][2] + triangle[1][2] + triangle[2][2]) / 3;
+
+	scene.add(facePointerSphere);
+});
+
 
 // Setup the controls
 const OrbitControls = ORBIT_CONTROLS(THREE);
