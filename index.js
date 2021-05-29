@@ -12,7 +12,7 @@ document.body.appendChild(renderer.domElement);
 
 const earthRadius = 5;
 const earthGeometry = new THREE.IcosahedronGeometry(earthRadius, 4);
-const earthMaterial = new THREE.MeshBasicMaterial({ color: 0x4cff00, wireframe: false });
+const earthMaterial = new THREE.MeshBasicMaterial({ color: 0x1E7E62, wireframe: false });
 const earthSphere = new THREE.Mesh(earthGeometry, earthMaterial);
 scene.add(earthSphere);
 
@@ -26,6 +26,7 @@ const triangles = _.chunk(verticies, 3);
 // console.log(verticies);
 // console.log(triangles);
 
+
 triangles.map(triangle => {
 	const facePointerGeometry = new THREE.BoxGeometry(.1, .1, .1);
 	const facePointerMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: false });
@@ -34,6 +35,9 @@ triangles.map(triangle => {
 	facePointerSphere.position.x = (triangle[0][0] + triangle[1][0] + triangle[2][0]) / 3;
 	facePointerSphere.position.y = (triangle[0][1] + triangle[1][1] + triangle[2][1]) / 3;
 	facePointerSphere.position.z = (triangle[0][2] + triangle[1][2] + triangle[2][2]) / 3;
+
+	// Lock its rotation onto the planet's surface using vector comparison.
+	facePointerSphere.lookAt(earthSphere.position);
 
 	scene.add(facePointerSphere);
 });
